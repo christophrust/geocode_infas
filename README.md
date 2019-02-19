@@ -23,9 +23,25 @@ happy geocoding:
     geocode_infas , street(addrstreet) strnum(addrhousenumber) plz(addrpostcode) city(addrcity) nclient(1) addressreturn servaddr("PAGSCoder") port(8090) encoding(utf8)
 
 
-in order to work, the geocoder must receive requests at
+in order to work with the above example, the geocoder must receive requests at
 
 http://127.0.0.1:8090/PAGSCoder/.
+
+# Parallel requests
+
+The tool is designed to manage multiple requests in parallel. One, therefore, has to deploy the geocoder multiple times and name name the web applications as follows:
+
+- PAGSCoder, PAGSCoder1, PAGSCoder2,...
+
+such that they are available at
+
+http://127.0.0.1:8090/PAGSCoder/, http://127.0.0.1:8090/PAGSCoder1/, http://127.0.0.1:8090/PAGSCoder2/, ...
+
+In order to make parallel requests, invoke the geocoder from within stata by specifying the nclient() option
+
+    geocode_infas , street(addrstreet) strnum(addrhousenumber) plz(addrpostcode) city(addrcity) nclient(10) addressreturn servaddr("PAGSCoder") port(8090) encoding(utf8)
+
+where 10 sessions will be used in parallel for geocoding.
 
 
 # Contact

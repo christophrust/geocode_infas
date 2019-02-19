@@ -23,7 +23,7 @@ end
 program define geocode_infas 
 
 
-syntax , street(varname) strnum(varname) plz(varname) city(varname) [ nclient(real 2) addressreturn  multihit servaddr(string) idvar(string) port(string) encoding(string "w1252") nocleanup timeout(real 2)]
+syntax , street(varname) strnum(varname) plz(varname) city(varname) [ nclient(real 2) addressreturn  multihit servaddr(string) idvar(string) port(string) encoding(string) nocleanup timeout(real 2)]
 
 
 if "`port'" =="" local port="8080"
@@ -39,6 +39,7 @@ if "`multihit'"!="" {
 	*local multihit = ""
 	}
 
+if "`encoding'"=="" local encoding = "utf8"
 
 ** parallelize
 *exit 
