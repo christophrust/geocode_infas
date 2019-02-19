@@ -23,7 +23,7 @@ end
 program define geocode_infas 
 
 
-syntax , street(varname) strnum(varname) plz(varname) city(varname) [ nclient(real 2) addressreturn  multihit servaddr(string) idvar(string) port(string) encoding(string) nocleanup timeout(real 2)]
+syntax , street(varname) strnum(varname) plz(varname) city(varname) [ nclient(real 1) addressreturn  multihit servaddr(string) idvar(string) port(string) encoding(string) nocleanup timeout(real 2)]
 
 
 if "`port'" =="" local port="8080"
@@ -40,6 +40,14 @@ if "`multihit'"!="" {
 	}
 
 if "`encoding'"=="" local encoding = "utf8"
+else {
+    if "`encoding'" != "utf8" & "`encoding'" != "utf-8" & "`encoding'" != "w1252"{
+        di as err "encoding must be either " as text "utf-8" as err " or " as text "w1252!"
+        exit
+    }
+}
+if "`encoding'"=="utf-8" local encoding = "utf8"
+
 
 ** parallelize
 *exit 
@@ -210,9 +218,10 @@ di ""
 di "Main instance finished:"
 di c(current_time)
 di c(current_date)
-di "Waiting for parallel sessions to finish..."
 
 if `parts' > 1 {
+    di "Waiting for parallel sessions to finish..."
+
 	qui save geocode_tempfiles/temp_package_coded`l' , replace
 
 	/* collecting datasets when finished */
@@ -257,12 +266,13 @@ if `parts' > 1 {
 		}
 	forvalues l=2/`parts' {
 		append using geocode_tempfiles/temp_package_coded`l'
-		}
-	}
+        }
+    di "Subinstances Finished:"
+    di c(current_time)
+    di c(current_date)
 
-di "Finished:"
-di c(current_time)
-di c(current_date)
+}
+
 
 label define ret_codeLab 0 "OK" 1 "No Hit" 2 "Geocoder reported an error" 3 "Error connecting to Server" , modify
 label values ret_code ret_codeLab 
@@ -273,7 +283,7 @@ if "`cleanup'"==""{
         shell rmdir /S /Q geocode_tempfiles
     }
     else {
-        shell rmdir -r -f geocode_tempfiles
+        shell rm -r -f geocode_tempfiles
     }
 }
 	

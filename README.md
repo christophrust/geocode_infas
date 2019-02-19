@@ -29,7 +29,7 @@ http://127.0.0.1:8090/PAGSCoder/.
 
 # Parallel requests
 
-The tool is designed to manage multiple requests in parallel. One, therefore, has to deploy the geocoder multiple times and name name the web applications as follows:
+The tool is designed to manage multiple requests in parallel. One, therefore, has to deploy the geocoder multiple times and name the web applications as follows:
 
 - PAGSCoder, PAGSCoder1, PAGSCoder2,...
 
@@ -46,4 +46,4 @@ where 10 sessions will be used in parallel for geocoding.
 
 # Contact
 
-In case, something doesn't work, contact me at christoph.rust@ur.de.
+In case, something doesn't work, contact me at christoph.rust [at] ur.de.
