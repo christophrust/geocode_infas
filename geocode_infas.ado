@@ -269,8 +269,13 @@ label values ret_code ret_codeLab
 
 * remove temporary files
 if "`cleanup'"==""{
-    shell rmdir /S /Q geocode_tempfiles
+    if c(os)=="Windows" {
+        shell rmdir /S /Q geocode_tempfiles
     }
+    else {
+        shell rmdir -r -f geocode_tempfiles
+    }
+}
 	
 end
 
