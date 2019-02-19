@@ -412,7 +412,7 @@ function UmlautToPercentUtf8(string StrWUml) {
 		StrWoUml  = regexr( StrWoUml , " " , "+")
 	}
 	while (regexm(StrWoUml  , "ß")) {
-		StrWoUml  = regexr( StrWoUml  , "ß" , "C3%9F")
+		StrWoUml  = regexr( StrWoUml  , "ß" , "%C3%9F")
 	}
 	while (regexm(StrWoUml  , "Ä")) {
 		StrWoUml  = regexr( StrWoUml  , "Ä" , "%C3%84")
@@ -421,13 +421,13 @@ function UmlautToPercentUtf8(string StrWUml) {
 		StrWoUml  = regexr( StrWoUml  , "ä" , "%C3%A4")
 	}
 	while (regexm(StrWoUml  , "Ö")) {
-		StrWoUml  = regexr( StrWoUml  , "Ö" , "+%C3%96")
+		StrWoUml  = regexr( StrWoUml  , "Ö" , "%C3%96")
 	}
 	while (regexm(StrWoUml  , "ö")) {
 		StrWoUml  = regexr( StrWoUml  , "ö" , "%C3%B6")
 	}
 	while (regexm(StrWoUml  , "Ü")) {
-		StrWoUml  = regexr( StrWoUml  , "Ü" , "+%C3%9C")
+		StrWoUml  = regexr( StrWoUml  , "Ü" , "%C3%9C")
 	}
 	while (regexm(StrWoUml  , "ü")) {
 		StrWoUml  = regexr( StrWoUml  , "ü" , "%C3%BC")
