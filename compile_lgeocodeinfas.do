@@ -132,7 +132,7 @@ function infas_geocode_request( string url , real addressreturn , real MaxHitRet
 
 
 
-void main_infas_geocode( string var_street , string var_strnum , string var_city , string var_plz , real addressreturn , string servDir , string port, strin encoding) {
+void main_infas_geocode( string var_street , string var_strnum , string var_city , string var_plz , real addressreturn , string servDir , string port, string encoding) {
 	data = st_sdata(. , (var_street , var_strnum , var_city , var_plz ))
 	n_obs = rows(data)
 	res = J(n_obs,9,.)
@@ -706,6 +706,6 @@ end
 mata 
 mata mlib create lgeocodeinfas , replace
 
-mata mlib add lgeocodeinfas infas_geocode_request() main_infas_geocode() main_infas_geocode_multiple() parse_vals() UmlautToUrl() UmlautToHtml() HtmlToUmlaut() UnicodeToUmlaut()
+mata mlib add lgeocodeinfas infas_geocode_request() main_infas_geocode() main_infas_geocode_multiple() parse_vals() UmlautToPercentUtf8() UmlautToPercentW1252() HtmlToUmlaut() UnicodeToUmlaut()
 
 end 
