@@ -132,7 +132,7 @@ function infas_geocode_request( string url , real addressreturn , real MaxHitRet
 
 
 
-void main_infas_geocode( string var_street , string var_strnum , string var_city , string var_plz , real addressreturn , string servDir , string port) {
+void main_infas_geocode( string var_street , string var_strnum , string var_city , string var_plz , real addressreturn , string servDir , string port, strin encoding) {
 	data = st_sdata(. , (var_street , var_strnum , var_city , var_plz ))
 	n_obs = rows(data)
 	res = J(n_obs,9,.)
@@ -162,12 +162,16 @@ void main_infas_geocode( string var_street , string var_strnum , string var_city
 		
 		/* umlaute and space replace to html */
 		// "test1"
-		street = UmlautToHtml(street)
-		strnum = UmlautToHtml(strnum)
-		// "test2"
-		city = UmlautToHtml(city)
-		// "test3"
-
+		if (encoding == "w1252"){
+                    street = UmlautToPercentW1252(street)
+                    strnum = UmlautToPercentW1252(strnum)
+                    city = UmlautToPercentW1252(city)
+                }
+                else if (encoding == "utf8"){
+                    street = UmlautToPercentUtf8(street)
+                    strnum = UmlautToPercentUtf8(strnum)
+                    city = UmlautToPercentUtf8(city)
+                }
 	
 		server = "http://127.0.0.1:" + port + "/" + servDir + "/"
 		baseaddr = "servlet/SrvGeocoder?RTVDIR=xml&RTVMODE=0&RTVRESTRICTIONHIT=32&RTVSTR="
@@ -255,7 +259,7 @@ void main_infas_geocode( string var_street , string var_strnum , string var_city
 
 /* ******************************************** */
 /* Multihit */
-void main_infas_geocode_multiple( string var_id ,  string var_street , string var_strnum , string var_city , string var_plz , real addressreturn , string servDir, string port) {
+void main_infas_geocode_multiple( string var_id ,  string var_street , string var_strnum , string var_city , string var_plz , real addressreturn , string servDir, string port, string encoding) {
 	data = st_sdata(. , (var_street , var_strnum , var_city , var_plz ))
 	orig_id = st_data(.,(var_id))
 	n_obs = rows(data)
@@ -284,10 +288,17 @@ void main_infas_geocode_multiple( string var_id ,  string var_street , string va
 		plz    = data[i,4]
 		id = orig_id[i,1]
 		
-		/* umlaute and space replace to html */
-		street = UmlautToHtml(street)
-		strnum = UmlautToHtml(strnum)
-		city = UmlautToHtml(city)
+                /* umlaute and space replace to html */
+                if (encoding == "w1252"){
+                    street = UmlautToPercentW1252(street)
+                    strnum = UmlautToPercentW1252(strnum)
+                    city = UmlautToPercentW1252(city)
+                }
+                else if (encoding == "utf8"){
+                    street = UmlautToPercentUtf8(street)
+                    strnum = UmlautToPercentUtf8(strnum)
+                    city = UmlautToPercentUtf8(city)
+                }
 	
 		server = "http://127.0.0.1:" + port + "/" + servDir + "/"
 		baseaddr = "servlet/SrvGeocoder?RTVDIR=xml&RTVMODE=0&RTVRESTRICTIONHIT=32&RTVSTR="
@@ -395,7 +406,7 @@ void main_infas_geocode_multiple( string var_id ,  string var_street , string va
 }
 
 
-function UmlautToUrl(string StrWUml) {
+function UmlautToPercentUtf8(string StrWUml) {
 	StrWoUml = StrWUml
 	while (regexm( StrWoUml , " ")) {
 		StrWoUml  = regexr( StrWoUml , " " , "+")
@@ -426,6 +437,36 @@ function UmlautToUrl(string StrWUml) {
 
 
 function UmlautToHtml(string stringwithuml) {
+	StrWoUml = stringwithuml
+	while (regexm( StrWoUml , " ")) {
+		StrWoUml  = regexr( StrWoUml , " " , "+")
+	}
+	while (regexm(StrWoUml  , "ß")) {
+		StrWoUml  = regexr( StrWoUml  , "ß" , "%DF")
+	}
+	while (regexm(StrWoUml  , "Ä")) {
+		StrWoUml  = regexr( StrWoUml  , "Ä" , "%C4")
+	}
+	while (regexm(StrWoUml  , "ä")) {
+		StrWoUml  = regexr( StrWoUml  , "ä" , "%E4")
+	}
+	while (regexm(StrWoUml  , "Ö")) {
+		StrWoUml  = regexr( StrWoUml  , "Ö" , "%D6")
+	}
+	while (regexm(StrWoUml  , "ö")) {
+		StrWoUml  = regexr( StrWoUml  , "ö" , "%F6")
+	}
+	while (regexm(StrWoUml  , "Ü")) {
+		StrWoUml  = regexr( StrWoUml  , "Ü" , "%DC")
+	}
+	while (regexm(StrWoUml  , "ü")) {
+		StrWoUml  = regexr( StrWoUml  , "ü" , "%FC")
+	}
+	return(StrWoUml)
+}
+
+
+function UmlautToPercentW1252(string stringwithuml) {
 	StrWoUml = stringwithuml
 	while (regexm( StrWoUml , " ")) {
 		StrWoUml  = regexr( StrWoUml , " " , "+")
