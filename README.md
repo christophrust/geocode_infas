@@ -12,7 +12,7 @@ GPL-3/GPL-2
 
 then in stata-console, type
 
-    do compile_geocodeinfas.do
+    do compile_lgeocodeinfas.do
     adopath ++ .
     mata mata mlib index
 
