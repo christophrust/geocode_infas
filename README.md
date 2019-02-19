@@ -8,7 +8,7 @@ GPL-3/GPL-2
 
 # Make this utility work:
 
-    git clone https://github.com/christophrust/geocode_infas
+    git clone https://github.com/christophrust/geocode_infas.git
 
 then in stata-console, type
 
